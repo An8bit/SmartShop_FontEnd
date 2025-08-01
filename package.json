@@ -19,11 +19,14 @@
     "@mui/material": "^7.2.0",
     "@tailwindcss/postcss": "^4.1.11",
     "ajv": "^8.17.1",
+    "automapper-classes": "^8.7.12",
+    "automapper-core": "^8.7.12",
     "axios": "^1.10.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "^6.30.1",
+    "reflect-metadata": "^0.2.2",
     "swiper": "^11.2.10"
   },
   "devDependencies": {

@@ -60,12 +60,14 @@ const ProductDetails = () => {
       // Xử lý response từ API
       let productData: Product;
       const response = productResponse as any;
-      if (response.data) {
-        productData = response.data;
-      } else if (response.product) {
-        productData = response.product;
+      if (response.data && typeof response.data === "object") {
+        productData = response.data as Product;
+      } else if (response.product && typeof response.product === "object") {
+        productData = response.product as Product;
+      } else if (typeof productResponse === "object") {
+        productData = productResponse as unknown as Product;
       } else {
-        productData = productResponse as Product;
+        throw new Error("Không thể xác định dữ liệu sản phẩm hợp lệ");
       }
       
       console.log("Processed product data:", productData);

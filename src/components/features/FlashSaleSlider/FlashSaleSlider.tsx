@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
-// import axios from "axios"; // TODO: Kiểm tra lại logic API này sau
 import "swiper/css";
 import "swiper/css/navigation";
 import styles from "./FlashSaleSlider.module.css";
 
 import { ProductDiscounted } from "../../../interfaces/DiscountedProduct";
 import DiscountService from "../../../services/discountService";
-
-import ApiService from "../../../services/apiService";
 
 const FlashSaleSlider = () => {
   const [products, setProducts] = useState<ProductDiscounted[]>([]);
@@ -22,7 +19,6 @@ const FlashSaleSlider = () => {
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
-
 
   if (loading) return <div className={styles["flash-sale-container"]}>Đang tải sản phẩm...</div>;
   if (error) return <div className={styles["flash-sale-container"]}>Lỗi: {error}</div>;
@@ -46,6 +42,8 @@ const FlashSaleSlider = () => {
         }}
       >
         {products.map((product) => {
+          const timeRemaining = DiscountService.calculateDiscountTimeRemaining(product.discountEndDate);
+          
           return (
             <SwiperSlide key={product.productId} className={styles["flash-sale-item"]}>
               <img
@@ -55,16 +53,16 @@ const FlashSaleSlider = () => {
               />
               <h3 className={styles["product-name"]}>{product.productName}</h3>
               <p className={styles["old-price"]}>
-                <s>{product.originalPrice.toLocaleString()}đ</s>
+                <s>{(product.originalPrice || 0).toLocaleString()}đ</s>
               </p>
               <p className={styles["new-price"]}>
-                {product.discountedPrice.toLocaleString()}đ
+                {(product.discountedPrice || 0).toLocaleString()}đ
                 <span style={{ color: "#ff3e6c", marginLeft: 8 }}>
-                  -{product.discountPercentage}%
+                  -{product.discountPercentage || 0}%
                 </span>
               </p>
               <div className={styles["discount-time"]}>
-                Áp dụng: {new Date(product.discountStartDate).toLocaleDateString()} - {new Date(product.discountEndDate).toLocaleDateString()}
+                ⏰ {timeRemaining.formattedTime}
               </div>
             </SwiperSlide>
           );
