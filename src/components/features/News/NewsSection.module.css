@@ -1,0 +1,83 @@
+.news-section {
+  display: flex;
+  gap: 20px;
+  background: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%; /* Đảm bảo toàn bộ chiều rộng */
+  max-width: 1200px; /* Giới hạn chiều rộng để không bị quá lớn */
+  margin: auto; /* Căn giữa */
+}
+
+.news-block {
+  flex: 1;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd; /* Thêm viền nhẹ */
+}
+
+.news-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.news-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid #ddd;
+}
+
+.news-card-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.news-card-content {
+  flex: 1;
+}
+
+.news-card-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.news-card-date {
+  font-size: 12px;
+  color: #777;
+}
+
+.guide-list {
+  list-style: none;
+  padding: 0;
+}
+
+.guide-item {
+  padding: 5px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.guide-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.guide-date {
+  font-size: 12px;
+  color: #777;
+}

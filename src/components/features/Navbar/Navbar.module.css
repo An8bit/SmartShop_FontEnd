@@ -1,0 +1,26 @@
+.navbar {
+  background-color: #333; /* Adjust the background color as needed */
+  padding: 10px 0;
+}
+
+.nav-menu {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  margin: 0 15px;
+}
+
+.nav-link {
+  color: white; /* Change the text color to white */
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.nav-link:hover {
+  color: #ddd; /* Optional: Change the text color on hover */
+}

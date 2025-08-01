@@ -1,0 +1,35 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #f8f9fa;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.home > * {
+  margin-bottom: 32px;
+}
+
+.home > *:first-child {
+  margin-top: 0;
+  margin-bottom: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.home > *:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .home {
+    padding: 12px;
+  }
+  .home > * {
+    margin-bottom: 20px;
+  }
+}
+  

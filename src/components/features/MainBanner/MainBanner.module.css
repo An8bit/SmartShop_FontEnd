@@ -1,0 +1,14 @@
+.main-banner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.banner-img {
+  width: 100%;
+  height: auto;
+  max-height: 400px; /* Điều chỉnh để đồng bộ */
+  object-fit: cover;
+  border-radius: 8px;
+}

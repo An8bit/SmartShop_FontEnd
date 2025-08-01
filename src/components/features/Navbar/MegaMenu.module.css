@@ -1,0 +1,31 @@
+.mega-menu {
+    position: absolute;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    border-radius: 6px;
+    min-width: 200px;
+    z-index: 999;
+  }
+  
+  .mega-column h3 {
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .mega-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .mega-column ul li {
+    padding: 5px 0;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .mega-column ul li:hover {
+    color: #ff6347;
+  }
+  
