@@ -26,7 +26,7 @@ export interface AddToCartDto {
 }
 
 export interface CartApiResponse {
-  cartItems: {
+  items: {
     cartItemId: number;
     productId: number;
     quantity: number;
@@ -35,8 +35,39 @@ export interface CartApiResponse {
       color: string;
       size: string;
     };
-    product?: Product;
   }[];
-  totalQuantity: number;
+  totalItems: number;
+  totalAmount: number;
+}
+export interface UserCartItem {
+  cartItemId: number;
+  productId: number;
+  productName: string;
+  productImage: string;
+  productVariantId?: number;
+  variantInfo?: {
+    color: string;
+    size: string;
+  };
+  quantity: number;
+  unitPrice: number;
   totalPrice: number;
+  addedAt: string;
+}
+
+export interface UserCart {
+  cartId: number;
+  sessionId?: string;
+  userId?: number;
+  items: UserCartItem[];
+  totalAmount: number;
+  totalItems: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AddToUserCartDto {
+  productId: number;
+  quantity: number;
+  variantId?: number;
 }

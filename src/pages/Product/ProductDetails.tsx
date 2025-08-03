@@ -2,30 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { FaShoppingCart, FaHeart, FaStar, FaShare, FaMinus, FaPlus, FaComments } from 'react-icons/fa';
 import { getProductById } from '../../services/productService';
-import { addToCart, addToGuestCart } from '../../services/cartService';
+import { addToCart } from '../../services/cartService';
 import { useToast } from '../../components/common/Toast/ToastProvider';
 import Header from "../../components/features/Header/Header";
 import Footer from "../../components/common/Footer/Footer";
 import styles from "./ProductDetails.module.css";
-
-interface Product {
-  productId: number;
-  name: string;
-  price: number;
-  discountedPrice?: number;
-  imageUrl: string;
-  description: string;
-  categoryId: string;
-  stockQuantity: number;
-  rating?: number;
-  sold?: number;
-  variants?: Array<{
-    variantId: number;
-    size: string;
-    color: string;
-    stockQuantity: number;
-  }>;
-}
+import { Product } from '../../interfaces/Product';
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -133,22 +115,11 @@ const ProductDetails = () => {
         return;
       }
 
-      // Kiểm tra xem user đã login chưa
-      const user = sessionStorage.getItem("user");
-      const isLoggedIn = user !== null && user !== "undefined";
-
-      if (isLoggedIn) {
-        // User đã login - gọi API
-        const selectedVariant = product.variants?.find(v => v.size === selectedSize);
-        await addToCart({ 
-          productId: product.productId, 
-          variantId: selectedVariant?.variantId,
-          quantity 
-        });
-      } else {
-        // Guest - lưu vào localStorage
-        addToGuestCart(product as any, quantity);
-      }
+      // Tìm variant được chọn
+      const selectedVariant = product.variants?.find(v => v.size === selectedSize);
+      
+      // Sử dụng CartService main - tự động route giữa guest và user
+      await addToCart(product, quantity, selectedVariant?.variantId);
 
       showToast('Sản phẩm đã được thêm vào giỏ hàng!', 'success');
     } catch (error) {
@@ -414,7 +385,7 @@ const ProductDetails = () => {
               <div 
                 className="prose prose-sm max-w-none leading-relaxed"
                 style={{color: '#b08968'}}
-                dangerouslySetInnerHTML={{ __html: product.description }} 
+                dangerouslySetInnerHTML={{ __html: product.description || 'Không có mô tả' }} 
               />
             </div>
           </div>

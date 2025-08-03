@@ -1,4 +1,5 @@
-import { mapper, ProductDiscountedDto, DiscountItemDto, ProductDto } from '../utils/mapper';
+import mapper from '../utils/mapper';
+import { ProductDiscountedDto, DiscountItemDto, ProductDto } from '../dto/ProductDto';
 import { ProductDiscounted, DiscountItem } from '../interfaces/DiscountedProduct';
 import { Product } from '../interfaces/Product';
 import { isDiscountActive } from './discountService';

@@ -19,4 +19,9 @@ export interface Product {
   originalPrice?: number;
   discountedPrice?: number;
   discountPercentage?: number;
+  // Thêm các properties cần thiết cho ProductDetails
+  rating?: number;
+  sold?: number;
+  stockQuantity?: number;
+  categoryId?: string;
 }

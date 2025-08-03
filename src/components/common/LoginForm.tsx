@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
-import UserService from "../../services/userService";
+import AuthService from "../../services/authService";
 import { mergeCartAfterLogin } from "../../services/cartService";
 import { useNavigate } from "react-router-dom";
 
 
 import styles from "./Auth.module.css";
+import UserService from "../../services/userService";
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -25,32 +26,18 @@ const LoginForm = () => {
     setIsLoading(true);
     setMessage(null);
     setError(null);
+    
     try {
       const res = await UserService.login(formData.email, formData.password);
       console.log("Login response:", res);
-      console.log("Response keys:", Object.keys(res));
       
-      // Kiểm tra các cấu trúc response có thể
-      let userData = null;
+      // Xử lý response từ API đã cập nhật
       if (res.user) {
-        userData = res.user;
-      } else if ((res as any).data && (res as any).data.user) {
-        userData = (res as any).data.user;
-      } else if ((res as any).fullName && (res as any).email) {
-        userData = { fullName: (res as any).fullName, email: (res as any).email };
-      } else {
-        console.error("Cannot find user data in response");
-        console.log("Full response:", JSON.stringify(res));
-      }
-      
-      console.log("User data extracted:", userData);
-      
-      if (userData) {
-        // Lưu thông tin user thực từ API
-        sessionStorage.setItem("user", JSON.stringify(userData));
-        console.log("Real user saved to sessionStorage:", sessionStorage.getItem("user"));
-        
-        // Merge guest cart lên server
+        // Lưu thông tin user từ API
+        AuthService.saveUser(res.user);
+        console.log("User data saved:", res.user);
+
+        // Merge guest cart
         try {
           await mergeCartAfterLogin();
           console.log("Cart merged successfully after login");
@@ -58,38 +45,22 @@ const LoginForm = () => {
           console.error("Error merging cart after login:", cartError);
         }
         
-        // Dispatch events để update UI với delay
+        // Dispatch events
         setTimeout(() => {
           window.dispatchEvent(new CustomEvent("userChanged"));
           window.dispatchEvent(new CustomEvent("cartChanged"));
-          console.log("Events dispatched with delay: userChanged, cartChanged");
         }, 100);
         
-        setMessage("Đăng nhập thành công");
+        setMessage(res.message || "Đăng nhập thành công");
         
-        // Navigate with delay để đảm bảo events được xử lý
         setTimeout(() => {
           navigate("/");
         }, 1500);
       } else {
-        // Fallback với email nếu không có userData từ API
-        const fallbackUser = {
-          fullName: formData.email.split('@')[0], // Lấy phần trước @ làm tên
-          email: formData.email
-        };
-        
-        sessionStorage.setItem("user", JSON.stringify(fallbackUser));
-        console.log("Fallback user saved:", fallbackUser);
-        
-        setTimeout(() => {
-          window.dispatchEvent(new CustomEvent("userChanged"));
-          window.dispatchEvent(new CustomEvent("cartChanged"));
-        }, 100);
-        
-        setMessage("Đăng nhập thành công");
-        setTimeout(() => navigate("/"), 1500);
+        throw new Error("Không nhận được thông tin người dùng từ server");
       }
     } catch (err: any) {
+      console.error("Login error:", err);
       setError(err.message || "Đăng nhập thất bại");
     } finally {
       setIsLoading(false);
