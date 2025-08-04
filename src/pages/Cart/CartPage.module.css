@@ -401,6 +401,43 @@ input[type="number"]::-webkit-inner-spin-button {
   }
 }
 
+/* ===== HIỂN THỊ GIÁ FLASHSALE ===== */
+.price-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.discounted-price {
+  color: #ff4081;
+  font-weight: bold;
+  font-size: 1.1em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.flash-sale-badge {
+  background: linear-gradient(135deg, #ff4081, #ff6b35);
+  color: white;
+  font-size: 0.7em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.original-price {
+  color: #999;
+  font-size: 0.9em;
+  margin-top: 2px;
+}
+
+.original-price s {
+  text-decoration: line-through;
+}
+
 /* Trạng thái loading */
 .loading {
   text-align: center;

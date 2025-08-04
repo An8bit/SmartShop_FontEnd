@@ -1,0 +1,642 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 30px 20px;
+  background: linear-gradient(135deg, #007bff, #6610f2);
+  border-radius: 12px;
+  color: white;
+}
+
+.header h1 {
+  margin: 0 0 10px 0;
+  font-size: 32px;
+}
+
+.header p {
+  margin: 0;
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+.loading {
+  text-align: center;
+  padding: 60px;
+  color: #666;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  border: 2px dashed #ddd;
+}
+
+.emptyIcon {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+
+.emptyState h3 {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.emptyState p {
+  margin: 0 0 20px 0;
+  color: #666;
+}
+
+.shopButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.shopButton:hover {
+  background-color: #0056b3;
+}
+
+.ordersList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.orderCard {
+  background-color: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #eee;
+  transition: box-shadow 0.2s;
+}
+
+.orderCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.orderInfo {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.orderNumber {
+  font-family: monospace;
+  font-size: 18px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.orderDate {
+  color: #666;
+  font-size: 14px;
+}
+
+.orderStatus {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Status Badges */
+.statusBadge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.statusPending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.statusConfirmed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.statusProcessing {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.statusShipped {
+  background-color: #e7f3ff;
+  color: #0056b3;
+}
+
+.statusDelivered {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.statusCancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.statusDefault {
+  background-color: #e9ecef;
+  color: #495057;
+}
+
+.paymentBadge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.paymentPending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.paymentCompleted {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.paymentFailed {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.paymentRefunded {
+  background-color: #e2e3e5;
+  color: #383d41;
+}
+
+.paymentDefault {
+  background-color: #e9ecef;
+  color: #495057;
+}
+
+.orderItems {
+  margin-bottom: 20px;
+}
+
+.orderItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #f8f9fa;
+}
+
+.orderItem:last-child {
+  border-bottom: none;
+}
+
+.itemInfo h4 {
+  margin: 0 0 5px 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.itemInfo p {
+  margin: 2px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.itemPrice {
+  font-weight: bold;
+  color: #333;
+  font-size: 16px;
+}
+
+.moreItems {
+  text-align: center;
+  padding: 10px;
+  color: #666;
+  font-style: italic;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+}
+
+.orderSummary {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+}
+
+.summaryRow.total {
+  font-weight: bold;
+  font-size: 18px;
+  color: #333;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.orderActions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.detailButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.detailButton:hover {
+  background-color: #0056b3;
+}
+
+.cancelButton {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.cancelButton:hover {
+  background-color: #c82333;
+}
+
+.reviewButton {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.reviewButton:hover {
+  background-color: #218838;
+}
+
+.viewConfirmationButton {
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.viewConfirmationButton:hover {
+  background-color: #138496;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.paginationButton {
+  background-color: #f8f9fa;
+  color: #333;
+  border: 1px solid #ddd;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.paginationButton:hover:not(:disabled) {
+  background-color: #e9ecef;
+}
+
+.paginationButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pageNumbers {
+  display: flex;
+  gap: 5px;
+}
+
+.pageButton {
+  background-color: #f8f9fa;
+  color: #333;
+  border: 1px solid #ddd;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  min-width: 45px;
+  transition: all 0.2s;
+}
+
+.pageButton:hover {
+  background-color: #e9ecef;
+}
+
+.pageButton.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background-color: white;
+  border-radius: 12px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 30px;
+  border-bottom: 1px solid #eee;
+  background-color: #f8f9fa;
+  border-radius: 12px 12px 0 0;
+}
+
+.modalHeader h2 {
+  margin: 0;
+  color: #333;
+  font-size: 24px;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.closeButton:hover {
+  background-color: #e9ecef;
+  color: #333;
+}
+
+.modalBody {
+  padding: 30px;
+}
+
+.detailSection {
+  margin-bottom: 30px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #eee;
+}
+
+.detailSection:last-child {
+  border-bottom: none;
+}
+
+.detailSection h3 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 20px;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f8f9fa;
+}
+
+.detailRow:last-child {
+  border-bottom: none;
+}
+
+.detailRow span:first-child {
+  font-weight: 500;
+  color: #333;
+}
+
+.address p {
+  margin: 4px 0;
+  color: #666;
+}
+
+.itemsList {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.detailItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.detailItem:last-child {
+  border-bottom: none;
+}
+
+.detailItem .itemInfo h4 {
+  margin: 0 0 5px 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.detailItem .itemInfo p {
+  margin: 2px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.itemTotal {
+  font-weight: bold;
+  color: #333;
+  font-size: 16px;
+}
+
+.paymentSummary {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+.modalActions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  padding: 25px 30px;
+  border-top: 1px solid #eee;
+  background-color: #f8f9fa;
+  border-radius: 0 0 12px 12px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .orderCard {
+    padding: 20px;
+  }
+
+  .orderHeader {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+  }
+
+  .orderInfo {
+    justify-content: space-between;
+  }
+
+  .orderStatus {
+    justify-content: flex-start;
+  }
+
+  .orderItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .orderActions {
+    flex-direction: column;
+  }
+
+  .orderActions button {
+    width: 100%;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+  }
+
+  .pageNumbers {
+    flex-wrap: wrap;
+  }
+
+  .modalContent {
+    margin: 20px;
+    max-width: calc(100vw - 40px);
+  }
+
+  .modalBody {
+    padding: 20px;
+  }
+
+  .modalActions {
+    flex-direction: column;
+  }
+
+  .modalActions button {
+    width: 100%;
+  }
+
+  .detailItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 25px 15px;
+  }
+
+  .header h1 {
+    font-size: 24px;
+  }
+
+  .orderNumber {
+    font-size: 16px;
+  }
+
+  .summaryRow.total {
+    font-size: 16px;
+  }
+
+  .modalHeader {
+    padding: 20px;
+  }
+
+  .modalHeader h2 {
+    font-size: 20px;
+  }
+
+  .statusBadge,
+  .paymentBadge {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+}

@@ -1,0 +1,148 @@
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.profileCard {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(127, 85, 57, 0.1);
+  overflow: hidden;
+}
+
+.header {
+  background: linear-gradient(135deg, #7f5539 0%, #a67c5a 100%);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.content {
+  padding: 2rem;
+}
+
+.avatar {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.avatarPlaceholder {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7f5539 0%, #a67c5a 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0 auto;
+}
+
+.infoSection {
+  margin-bottom: 2rem;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.field:last-child {
+  border-bottom: none;
+}
+
+.field label {
+  font-weight: 600;
+  color: #5d4037;
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.field span {
+  color: #8d6e63;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.logoutButton {
+  background: #d32f2f;
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logoutButton:hover {
+  background: #c62828;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(211, 47, 47, 0.2);
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 2rem;
+  color: #8d6e63;
+  font-size: 1.1rem;
+}
+
+.error {
+  color: #d32f2f;
+}
+
+@media (max-width: 768px) {
+  .container {
+    margin: 1rem auto;
+    padding: 0 0.5rem;
+  }
+  
+  .content {
+    padding: 1rem;
+  }
+  
+  .actions {
+    flex-direction: column;
+  }
+  
+  .field {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .field label {
+    width: auto;
+  }
+}
+
+/* Thêm hiệu ứng cho button */
+.logoutButton:active {
+  transform: translateY(0);
+}
+
+/* Focus state cho accessibility */
+.logoutButton:focus {
+  outline: 2px solid #7f5539;
+  outline-offset: 2px;
+}

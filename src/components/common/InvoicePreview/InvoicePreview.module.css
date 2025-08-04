@@ -1,0 +1,421 @@
+/* Modal overlay */
+.invoiceModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.invoiceContainer {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  max-width: 800px;
+  max-height: 90vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header với nút điều khiển */
+.invoiceHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #7f5539 0%, #5d4037 100%);
+  color: white;
+}
+
+.invoiceHeader h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.headerActions {
+  display: flex;
+  gap: 10px;
+}
+
+.printButton,
+.downloadButton,
+.closeButton {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.printButton {
+  background: #2196f3;
+  color: white;
+}
+
+.printButton:hover {
+  background: #1976d2;
+}
+
+.downloadButton {
+  background: #4caf50;
+  color: white;
+}
+
+.downloadButton:hover {
+  background: #388e3c;
+}
+
+.closeButton {
+  background: #f44336;
+  color: white;
+  min-width: 36px;
+}
+
+.closeButton:hover {
+  background: #d32f2f;
+}
+
+/* Nội dung hóa đơn */
+.invoiceContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem;
+  background: white;
+}
+
+/* Header công ty */
+.companyHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+.companyInfo h1 {
+  color: #7f5539;
+  font-size: 2.5rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: 700;
+}
+
+.companyInfo p {
+  margin: 0.25rem 0;
+  color: #5d4037;
+  font-size: 0.95rem;
+}
+
+.invoiceNumber {
+  text-align: right;
+}
+
+.invoiceNumber h2 {
+  color: #7f5539;
+  font-size: 1.5rem;
+  margin: 0 0 1rem 0;
+  font-weight: 700;
+}
+
+.invoiceNumber p {
+  margin: 0.5rem 0;
+  color: #5d4037;
+  font-size: 1rem;
+}
+
+/* Divider */
+.divider {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, #7f5539 0%, #d7ccc8 100%);
+  margin: 1.5rem 0;
+}
+
+/* Thông tin khách hàng */
+.customerInfo h3 {
+  color: #7f5539;
+  font-size: 1.3rem;
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+}
+
+.customerDetails {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  background: #faf9f8;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid #7f5539;
+}
+
+.customerDetails p {
+  margin: 0;
+  color: #5d4037;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* Bảng sản phẩm */
+.productsTable h3 {
+  color: #7f5539;
+  font-size: 1.3rem;
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+}
+
+.productsTable table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  background: white;
+  box-shadow: 0 2px 8px rgba(127, 85, 57, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.productsTable th {
+  background: linear-gradient(135deg, #7f5539 0%, #5d4037 100%);
+  color: white;
+  padding: 1rem 0.8rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.productsTable td {
+  padding: 1rem 0.8rem;
+  border-bottom: 1px solid #efebe9;
+  color: #5d4037;
+  font-size: 0.9rem;
+}
+
+.productsTable tr:nth-child(even) {
+  background: #faf9f8;
+}
+
+.productsTable tr:hover {
+  background: #f5f3f0;
+}
+
+.productsTable th:first-child,
+.productsTable td:first-child {
+  text-align: center;
+  width: 60px;
+}
+
+.productsTable th:last-child,
+.productsTable td:last-child {
+  text-align: right;
+  font-weight: 600;
+}
+
+/* Tổng tiền */
+.totalSection {
+  background: #faf9f8;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 2px solid #d7ccc8;
+  margin: 2rem 0;
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  font-size: 1rem;
+  color: #5d4037;
+}
+
+.finalTotal {
+  font-size: 1.3rem;
+  color: #7f5539;
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+}
+
+.totalSection hr {
+  border: none;
+  height: 1px;
+  background: #d7ccc8;
+  margin: 1rem 0 0.5rem 0;
+}
+
+/* Ghi chú */
+.notes {
+  background: #fff3e0;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid #ff9800;
+  margin: 1.5rem 0;
+}
+
+.notes h4 {
+  color: #ef6c00;
+  margin: 0 0 0.8rem 0;
+  font-size: 1.1rem;
+}
+
+.notes p {
+  color: #5d4037;
+  margin: 0;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* Footer */
+.invoiceFooter {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid #d7ccc8;
+}
+
+.signatures {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.signature {
+  text-align: center;
+  width: 45%;
+}
+
+.signature p {
+  margin: 0.5rem 0;
+  color: #5d4037;
+  font-size: 0.9rem;
+}
+
+.signatureSpace {
+  height: 60px;
+  border-bottom: 1px solid #bbb;
+  margin: 1rem 0;
+}
+
+.thankYou {
+  text-align: center;
+  background: linear-gradient(135deg, #7f5539 0%, #5d4037 100%);
+  color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.thankYou p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.thankYou p:first-child {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* Print styles */
+@media print {
+  .invoiceModal {
+    position: static;
+    background: none;
+    padding: 0;
+  }
+  
+  .invoiceContainer {
+    box-shadow: none;
+    border-radius: 0;
+    max-height: none;
+    max-width: none;
+  }
+  
+  .invoiceHeader {
+    display: none;
+  }
+  
+  .invoiceContent {
+    padding: 0;
+  }
+  
+  .companyHeader {
+    page-break-inside: avoid;
+  }
+  
+  .productsTable {
+    page-break-inside: auto;
+  }
+  
+  .productsTable tr {
+    page-break-inside: avoid;
+  }
+  
+  .totalSection,
+  .invoiceFooter {
+    page-break-inside: avoid;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .invoiceModal {
+    padding: 10px;
+  }
+  
+  .invoiceContainer {
+    max-height: 95vh;
+  }
+  
+  .invoiceHeader {
+    padding: 0.8rem 1rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .headerActions {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .invoiceContent {
+    padding: 1rem;
+  }
+  
+  .companyHeader {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .invoiceNumber {
+    text-align: left;
+  }
+  
+  .customerDetails {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .productsTable table {
+    font-size: 0.8rem;
+  }
+  
+  .productsTable th,
+  .productsTable td {
+    padding: 0.5rem 0.4rem;
+  }
+  
+  .signatures {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .signature {
+    width: 100%;
+  }
+}

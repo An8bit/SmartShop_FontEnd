@@ -33,7 +33,6 @@ const CartPage: React.FC = () => {
 
   useEffect(() => {
     fetchCart();
-    
     // Lắng nghe events để auto-refresh cart
     const handleCartChanged = () => {
       console.log("Cart changed event detected, refreshing cart...");
@@ -173,7 +172,9 @@ const CartPage: React.FC = () => {
                                  item.productImage ||
                                  "/images/default-product.svg";
                                  
-            const unitPrice = item.product?.price || 
+            // Ưu tiên discountedPrice cho sản phẩm flashsale, sau đó price thông thường
+            const unitPrice = item.product?.discountedPrice || 
+                             item.product?.price || 
                              item.price || 
                              item.unitPrice ||
                              0;
@@ -181,6 +182,11 @@ const CartPage: React.FC = () => {
             const totalPrice = item.totalPrice || 
                               (item.quantity * unitPrice) ||
                               0;
+                              
+            // Hiển thị thông tin giảm giá nếu có
+            const hasDiscount = item.product?.discountedPrice && 
+                               item.product?.price && 
+                               item.product.discountedPrice < item.product.price;
                               
             const variantText = item.variant ? 
                                `${item.variant.color} - ${item.variant.size}` : 
@@ -204,7 +210,23 @@ const CartPage: React.FC = () => {
                   </div>
                 </div>
               </td>
-              <td>{unitPrice?.toLocaleString()}₫</td>
+              <td>
+                <div className={styles["price-info"]}>
+                  {hasDiscount ? (
+                    <div>
+                      <div className={styles["discounted-price"]}>
+                        {unitPrice?.toLocaleString()}₫
+                        <span className={styles["flash-sale-badge"]}>FLASH SALE</span>
+                      </div>
+                      <div className={styles["original-price"]}>
+                        <s>{item.product?.price?.toLocaleString()}₫</s>
+                      </div>
+                    </div>
+                  ) : (
+                    <span>{unitPrice?.toLocaleString()}₫</span>
+                  )}
+                </div>
+              </td>
               <td>
                 <input
                   type="number"
@@ -233,7 +255,13 @@ const CartPage: React.FC = () => {
           <button onClick={() => navigate("/products/all")} className={styles["continue-btn"]}>
             🛍️ Tiếp tục mua sắm
           </button>
-          <button className={styles["checkout-btn"]} disabled>
+          <button 
+            onClick={() => navigate("/checkout", { 
+              state: { cartItems: cart?.items || [] } 
+            })} 
+            className={styles["checkout-btn"]}
+            disabled={!cart?.items || cart.items.length === 0}
+          >
             💳 Thanh toán
           </button>
         </div>

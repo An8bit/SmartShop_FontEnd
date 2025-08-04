@@ -1,0 +1,344 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #faf9f8;
+  border-radius: 12px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h2 {
+  margin: 0;
+  color: #5d4037;
+  font-weight: 600;
+}
+
+.addButton {
+  background: linear-gradient(135deg, #7f5539 0%, #a67c5a 100%);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(127, 85, 57, 0.2);
+}
+
+.addButton:hover {
+  background: linear-gradient(135deg, #6d4c41 0%, #8d6e63 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(127, 85, 57, 0.3);
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #8d6e63;
+  font-size: 1.1rem;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 40px;
+  background: linear-gradient(145deg, #faf9f8 0%, #f5f3f0 100%);
+  border-radius: 12px;
+  color: #8d6e63;
+  border: 2px dashed #d7ccc8;
+}
+
+.addressList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.addressCard {
+  border: 2px solid #efebe9;
+  border-radius: 12px;
+  padding: 20px;
+  background-color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(127, 85, 57, 0.05);
+}
+
+.addressCard:hover {
+  border-color: #7f5539;
+  box-shadow: 0 4px 12px rgba(127, 85, 57, 0.1);
+}
+
+.defaultAddress {
+  border-color: #7f5539;
+  background: linear-gradient(145deg, #faf9f8 0%, #f5f3f0 100%);
+  box-shadow: 0 4px 12px rgba(127, 85, 57, 0.15);
+}
+
+.addressInfo h4 {
+  margin: 0 0 8px 0;
+  color: #5d4037;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.defaultBadge {
+  background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
+}
+
+.addressInfo p {
+  margin: 4px 0;
+  color: #8d6e63;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+.selectButton {
+  background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
+}
+
+.selectButton:hover {
+  background: linear-gradient(135deg, #388e3c 0%, #4caf50 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+}
+
+.editButton {
+  background-color: #8d6e63;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(141, 110, 99, 0.2);
+}
+
+.editButton:hover {
+  background-color: #6d4c41;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(141, 110, 99, 0.3);
+}
+
+.defaultButton {
+  background: linear-gradient(135deg, #ff9800 0%, #ffb74d 100%);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(255, 152, 0, 0.2);
+}
+
+.defaultButton:hover {
+  background: linear-gradient(135deg, #f57c00 0%, #ff9800 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(255, 152, 0, 0.3);
+}
+
+.deleteButton {
+  background: linear-gradient(135deg, #f44336 0%, #ef5350 100%);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(244, 67, 54, 0.2);
+}
+
+.deleteButton:hover {
+  background: linear-gradient(135deg, #d32f2f 0%, #f44336 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
+}
+
+.saveButton {
+  background: linear-gradient(135deg, #7f5539 0%, #a67c5a 100%);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(127, 85, 57, 0.2);
+}
+
+.saveButton:hover {
+  background: linear-gradient(135deg, #6d4c41 0%, #8d6e63 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(127, 85, 57, 0.3);
+}
+
+.cancelButton {
+  background-color: #8d6e63;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(141, 110, 99, 0.2);
+}
+
+.cancelButton:hover {
+  background-color: #6d4c41;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(141, 110, 99, 0.3);
+}
+
+.addForm,
+.editForm {
+  border: 2px solid #7f5539;
+  border-radius: 12px;
+  padding: 25px;
+  background: linear-gradient(145deg, #faf9f8 0%, #f5f3f0 100%);
+  margin-top: 20px;
+  box-shadow: 0 4px 12px rgba(127, 85, 57, 0.1);
+}
+
+.addForm h3 {
+  margin: 0 0 20px 0;
+  color: #5d4037;
+  font-weight: 600;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.formRow:has(input[name="city"]) {
+  grid-template-columns: 1fr 1fr 120px;
+}
+
+.input {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #efebe9;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #7f5539;
+  box-shadow: 0 0 0 3px rgba(127, 85, 57, 0.1);
+}
+
+.input:last-child {
+  margin-bottom: 15px;
+}
+
+.input:disabled {
+  background-color: #f5f3f0;
+  color: #8d6e63;
+  cursor: not-allowed;
+}
+
+select.input {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237f5539' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+select.input:disabled {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238d6e63' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 15px 0;
+  cursor: pointer;
+  font-size: 14px;
+  color: #5d4037;
+  font-weight: 500;
+}
+
+.checkbox input {
+  margin: 0;
+  scale: 1.2;
+  accent-color: #7f5539;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+  }
+
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .actions button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .addressCard {
+    padding: 15px;
+  }
+  
+  .addForm,
+  .editForm {
+    padding: 15px;
+  }
+}
