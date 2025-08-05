@@ -74,12 +74,72 @@
   color: #8d6e63;
 }
 
+.spending {
+  font-weight: 600;
+  color: #667eea !important;
+  font-size: 1.1rem;
+}
+
 .actions {
   display: flex;
   gap: 1rem;
   justify-content: center;
   padding-top: 2rem;
   border-top: 1px solid #e5e7eb;
+}
+
+.editButton, .saveButton, .cancelButton, .ordersButton {
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.editButton {
+  background: #7f5539;
+  color: white;
+}
+
+.editButton:hover {
+  background: #6d4a32;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(127, 85, 57, 0.2);
+}
+
+.saveButton {
+  background: #4caf50;
+  color: white;
+}
+
+.saveButton:hover {
+  background: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
+}
+
+.cancelButton {
+  background: #9e9e9e;
+  color: white;
+}
+
+.cancelButton:hover {
+  background: #757575;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(158, 158, 158, 0.2);
+}
+
+.ordersButton {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.ordersButton:hover {
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
 }
 
 .logoutButton {

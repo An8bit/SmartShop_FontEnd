@@ -1,3 +1,5 @@
+import { UserInfo } from '../interfaces/User';
+
 class AuthService {
   private static readonly USER_KEY = 'user';
   
@@ -5,6 +7,9 @@ class AuthService {
     sessionStorage.setItem(this.USER_KEY, JSON.stringify(user));
   }
   
+static saveUserData(user: UserInfo): void {
+    sessionStorage.setItem(this.USER_KEY, JSON.stringify(user));}
+
   static getUser(): any | null {
     const userData = sessionStorage.getItem(this.USER_KEY);
     if (!userData) return null;

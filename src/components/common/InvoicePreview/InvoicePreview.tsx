@@ -83,8 +83,8 @@ const InvoicePreview: React.FC<InvoicePreviewProps> = ({
           <div className={styles.customerInfo}>
             <h3>📋 Thông tin khách hàng</h3>
             <div className={styles.customerDetails}>
-              <p><strong>Họ tên:</strong> {selectedAddress.receiverName}</p>
-              <p><strong>Điện thoại:</strong> {selectedAddress.receiverPhone}</p>
+              <p><strong>Họ tên:</strong> {"Lâm Phạm"}</p>
+              <p><strong>Điện thoại:</strong> {"0123456789"}</p>
               <p><strong>Địa chỉ:</strong> {selectedAddress.addressLine1}</p>
               {selectedAddress.addressLine2 && (
                 <p><strong>Địa chỉ 2:</strong> {selectedAddress.addressLine2}</p>

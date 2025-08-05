@@ -18,7 +18,7 @@ class UserService {
   }
 
   static async getProfile() {
-    return ApiService.get<{ user: UserInfo }>("user/profile");
+    return ApiService.get<UserInfo>("user/profile");
   }
 
   static async updateProfileAddress(data: Partial<UserInfo>) {

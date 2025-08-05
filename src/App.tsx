@@ -8,6 +8,7 @@ import ProductPage from './pages/Product/ProductPage';
 import ProductDetails from './pages/Product/ProductDetails';
 import CartPage from './pages/Cart/CartPage';
 import ProfilePage from './pages/Profile/Profile';
+import OrdersPage from './pages/Profile/OrdersPage';
 import { ToastProvider } from './components/common/Toast/ToastProvider';
 import CheckoutPage from './pages/Checkout/CheckoutPage';
 import OrderConfirmation from './pages/Checkout/OrderConfirmation';
@@ -32,6 +33,7 @@ function App() {
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/orders" element={<OrdersPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/order-confirmation" element={<OrderConfirmation />} />
           <Route path="/order-history" element={<OrderHistory />} />

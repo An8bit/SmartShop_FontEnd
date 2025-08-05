@@ -7,8 +7,11 @@ export interface Address {
   postalCode: string;
   country?: string;
   isDefault: boolean;
-  receiverName: string;
-  receiverPhone: string;
+  receiverName?: string;
+  receiverPhone?: string;
+  // API response fields
+  addressId?: number;
+  userId?: number;
 }
 
 export interface ShippingFee {
@@ -26,12 +29,18 @@ export interface PaymentMethod {
 
 export interface OrderItem {
   productId: number;
-  productName: string;
+  productName?: string;
   quantity: number;
   price: number;
   variantId?: number;
   variantName?: string;
   imageUrl?: string;
+  // API response fields
+  orderItemId?: number;
+  productImage?: string;
+  productVariantId?: number;
+  variantInfo?: string;
+  totalPrice?: number;
 }
 
 export interface OrderSummary {
@@ -52,21 +61,24 @@ export interface CreateOrderDto {
 
 export interface Order {
   orderId: number;
-  orderNumber: string;
+  orderNumber?: string;
   userId: number;
-  status: 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  status: 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'Pending';
   paymentMethod: string;
-  paymentStatus: 'pending' | 'completed' | 'failed' | 'refunded';
+  paymentStatus?: 'pending' | 'completed' | 'failed' | 'refunded';
   shippingAddress: Address;
-  items: OrderItem[];
-  subtotal: number;
-  shippingFee: number;
-  discount: number;
-  tax: number;
-  total: number;
+  items?: OrderItem[]; // Optional for backward compatibility
+  orderItems?: OrderItem[]; // API response field
+  subtotal?: number;
+  shippingFee?: number;
+  discount?: number;
+  tax?: number;
+  total?: number;
+  totalAmount?: number; // API response field
   notes?: string;
   createdAt: string;
-  updatedAt: string;
+  updatedAt?: string;
+  orderDate?: string; // API response field
 }
 
 export interface Invoice {

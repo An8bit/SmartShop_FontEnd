@@ -2,12 +2,12 @@ export interface UserInfo {
   userId: number;
   fullName: string;
   email: string;
-  phone: string;
-  membershipTier: string;
-  totalSpending: number;
-  role: string;
+  phone?: string;
+  membershipTier?: string;
+  totalSpending?: number;
+  role?: string;
   createdAt: string;
-  updatedAt: string | null;
+  updatedAt?: string | null;
 }
 
 export interface UpdateAddress {

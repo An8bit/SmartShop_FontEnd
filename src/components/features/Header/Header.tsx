@@ -129,13 +129,13 @@ const Header = () => {
             <Link to="/products/all" className={styles.navLink}>
               Tất cả sản phẩm
             </Link>
-            <Link to="/products/1" className={styles.navLink}>
+            <Link to="/products/26" className={styles.navLink}>
               Nam
             </Link>
-            <Link to="/products/2" className={styles.navLink}>
+            <Link to="/products/25" className={styles.navLink}>
               Nữ
             </Link>
-            <Link to="/products/3" className={styles.navLink}>
+            <Link to="/products/12" className={styles.navLink}>
               Trẻ em
             </Link>
             <Link to="/products/4" className={styles.navLink}>

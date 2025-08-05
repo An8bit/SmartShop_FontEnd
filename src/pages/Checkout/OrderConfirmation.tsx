@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PaymentService from '../../services/paymentService';
+import AuthService from '../../services/authService';
 import { useToast } from '../../components/common/Toast/ToastProvider';
 import { Order, Invoice, BankTransferInfo } from '../../interfaces/Payment';
+import { UserInfo } from '../../interfaces/User';
 import styles from './OrderConfirmation.module.css';
 
 const OrderConfirmation: React.FC = () => {
@@ -16,28 +18,41 @@ const OrderConfirmation: React.FC = () => {
   const navigate = useNavigate();
   const { showToast } = useToast();
 
-  const { orderId, paymentMethod } = location.state || {};
+  // Get orderId from URL params if provided, otherwise will load the latest order
+  const orderIdFromUrl = new URLSearchParams(location.search).get('orderId');
 
   useEffect(() => {
-    if (!orderId) {
-      showToast('Không tìm thấy thông tin đơn hàng', 'error');
-      navigate('/');
-      return;
-    }
-
     loadOrderDetails();
-  }, [orderId]);
+  }, []);
 
   const loadOrderDetails = async () => {
     try {
       setLoading(true);
 
-      // Load order details
-      const orderData = await PaymentService.getOrder(orderId);
-      setOrder(orderData);
+      // Load order details - API trả về array
+      const ordersData = await PaymentService.getOrder();
+     
+      
+      let foundOrder;
+      if (orderIdFromUrl) {
+        // Nếu có orderId trong URL, tìm order cụ thể
+        foundOrder = ordersData.find(order => order.orderId === Number(orderIdFromUrl));
+      } else {
+        // Nếu không có orderId, lấy order mới nhất (order đầu tiên trong array)
+        foundOrder = ordersData[0];
+      }
+      
+      console.log('Found order:', foundOrder);
+      if (!foundOrder) {
+        showToast('Không tìm thấy đơn hàng', 'error');
+        navigate('/');
+        return;
+      }
+      
+      setOrder(foundOrder);
 
       // Load bank transfer info if payment method is bank transfer
-      if (paymentMethod === 'bank_transfer') {
+      if (foundOrder.paymentMethod === 'bank_transfer') {
         const bankData = await PaymentService.getBankTransferInfo();
         setBankInfo(bankData);
       }
@@ -100,7 +115,8 @@ const OrderConfirmation: React.FC = () => {
     if (!transactionId) return;
 
     try {
-      await PaymentService.confirmBankTransfer(order.orderId, transactionId, order.total);
+      const orderTotal = order.total || order.totalAmount || 0;
+      await PaymentService.confirmBankTransfer(order.orderId, transactionId, orderTotal);
       showToast('Xác nhận thanh toán thành công! Chúng tôi sẽ xử lý đơn hàng của bạn.', 'success');
       loadOrderDetails(); // Reload to get updated status
     } catch (error) {
@@ -112,6 +128,7 @@ const OrderConfirmation: React.FC = () => {
   const getStatusBadge = (status: string) => {
     const statusMap: { [key: string]: { label: string; className: string } } = {
       pending: { label: 'Chờ xử lý', className: styles.statusPending },
+      Pending: { label: 'Chờ xử lý', className: styles.statusPending },
       confirmed: { label: 'Đã xác nhận', className: styles.statusConfirmed },
       processing: { label: 'Đang xử lý', className: styles.statusProcessing },
       shipped: { label: 'Đã gửi hàng', className: styles.statusShipped },
@@ -228,9 +245,9 @@ const OrderConfirmation: React.FC = () => {
         <div className={styles.orderHeader}>
           <h2>Thông tin đơn hàng</h2>
           <div className={styles.orderMeta}>
-            <span className={styles.orderNumber}>#{order.orderNumber}</span>
+            <span className={styles.orderNumber}>#{order.orderNumber || `ORDER-${order.orderId}`}</span>
             {getStatusBadge(order.status)}
-            {getPaymentStatusBadge(order.paymentStatus)}
+            {order.paymentStatus && getPaymentStatusBadge(order.paymentStatus)}
           </div>
         </div>
 
@@ -238,8 +255,8 @@ const OrderConfirmation: React.FC = () => {
           <div className={styles.section}>
             <h3>Địa chỉ giao hàng</h3>
             <div className={styles.address}>
-              <p><strong>{order.shippingAddress.receiverName}</strong></p>
-              <p>{order.shippingAddress.receiverPhone}</p>
+              <p><strong>{order.shippingAddress.receiverName || 'Người nhận'}</strong></p>
+              <p>{order.shippingAddress.receiverPhone || 'Số điện thoại'}</p>
               <p>{order.shippingAddress.addressLine1}</p>
               {order.shippingAddress.addressLine2 && <p>{order.shippingAddress.addressLine2}</p>}
               <p>{order.shippingAddress.city}, {order.shippingAddress.state} {order.shippingAddress.postalCode}</p>
@@ -254,15 +271,15 @@ const OrderConfirmation: React.FC = () => {
           <div className={styles.section}>
             <h3>Sản phẩm đã đặt</h3>
             <div className={styles.itemsList}>
-              {order.items.map((item, index) => (
+              {order.orderItems?.map((item, index) => (
                 <div key={index} className={styles.orderItem}>
                   <div className={styles.itemInfo}>
-                    <h4>{item.productName}</h4>
-                    {item.variantName && <p>{item.variantName}</p>}
+                    <h4>{item.productName || `Sản phẩm #${item.productId}`}</h4>
+                    {item.variantInfo && <p>{item.variantInfo}</p>}
                     <p>Số lượng: {item.quantity}</p>
                   </div>
                   <div className={styles.itemPrice}>
-                    {(item.price * item.quantity).toLocaleString('vi-VN')}₫
+                    {(item.totalPrice || item.price * item.quantity || 0).toLocaleString('vi-VN')}₫
                   </div>
                 </div>
               ))}
@@ -280,32 +297,32 @@ const OrderConfirmation: React.FC = () => {
         <div className={styles.orderSummary}>
           <div className={styles.summaryRow}>
             <span>Tạm tính:</span>
-            <span>{order.subtotal.toLocaleString('vi-VN')}₫</span>
+            <span>{(order.totalAmount || 0).toLocaleString('vi-VN')}₫</span>
           </div>
           <div className={styles.summaryRow}>
             <span>Phí vận chuyển:</span>
-            <span>{order.shippingFee.toLocaleString('vi-VN')}₫</span>
+            <span>{(order.shippingFee || 30000).toLocaleString('vi-VN')}₫</span>
           </div>
-          {order.discount > 0 && (
+          {(order.discount || 0) > 0 && (
             <div className={styles.summaryRow}>
               <span>Giảm giá:</span>
-              <span>-{order.discount.toLocaleString('vi-VN')}₫</span>
+              <span>-{(order.discount || 0).toLocaleString('vi-VN')}₫</span>
             </div>
           )}
-          {order.tax > 0 && (
+          {(order.tax || 0) > 0 && (
             <div className={styles.summaryRow}>
               <span>Thuế:</span>
-              <span>{order.tax.toLocaleString('vi-VN')}₫</span>
+              <span>{(order.tax || 0).toLocaleString('vi-VN')}₫</span>
             </div>
           )}
           <div className={`${styles.summaryRow} ${styles.total}`}>
             <span>Tổng cộng:</span>
-            <span>{order.total.toLocaleString('vi-VN')}₫</span>
+            <span>{(order.total || (order.totalAmount || 0) + (30000)).toLocaleString('vi-VN')}₫</span>
           </div>
         </div>
 
         {/* Bank Transfer Info */}
-        {paymentMethod === 'bank_transfer' && bankInfo && order.paymentStatus === 'pending' && (
+        {order.paymentMethod === 'bank_transfer' && bankInfo && (order.paymentStatus === 'pending' || !order.paymentStatus) && (
           <div className={styles.bankTransferInfo}>
             <h3>Thông tin chuyển khoản</h3>
             <div className={styles.bankDetails}>
@@ -323,11 +340,11 @@ const OrderConfirmation: React.FC = () => {
               </div>
               <div className={styles.bankRow}>
                 <span>Nội dung chuyển khoản:</span>
-                <span>{bankInfo.transferContent.replace('[ORDER_NUMBER]', order.orderNumber)}</span>
+                <span>{bankInfo.transferContent.replace('[ORDER_NUMBER]', order.orderNumber || `ORDER-${order.orderId}`)}</span>
               </div>
               <div className={styles.bankRow}>
                 <span>Số tiền:</span>
-                <span className={styles.amount}>{order.total.toLocaleString('vi-VN')}₫</span>
+                <span className={styles.amount}>{(order.total || order.totalAmount || 0).toLocaleString('vi-VN')}₫</span>
               </div>
             </div>
             {bankInfo.qrCodeUrl && (

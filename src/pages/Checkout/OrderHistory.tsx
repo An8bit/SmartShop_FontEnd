@@ -25,9 +25,10 @@ const OrderHistory: React.FC = () => {
   const loadOrders = async () => {
     try {
       setLoading(true);
-      const { orders: orderData, total } = await PaymentService.getUserOrders(currentPage, ORDERS_PER_PAGE);
+      // API getOrder() trả về array, không phải object với pagination
+      const orderData = await PaymentService.getOrder();
       setOrders(orderData);
-      setTotalOrders(total);
+      setTotalOrders(orderData.length);
     } catch (error) {
       console.error('Error loading orders:', error);
       showToast('Có lỗi khi tải danh sách đơn hàng', 'error');
@@ -58,6 +59,7 @@ const OrderHistory: React.FC = () => {
   const getStatusBadge = (status: string) => {
     const statusMap: { [key: string]: { label: string; className: string } } = {
       pending: { label: 'Chờ xử lý', className: styles.statusPending },
+      Pending: { label: 'Chờ xử lý', className: styles.statusPending },
       confirmed: { label: 'Đã xác nhận', className: styles.statusConfirmed },
       processing: { label: 'Đang xử lý', className: styles.statusProcessing },
       shipped: { label: 'Đã gửi hàng', className: styles.statusShipped },
@@ -138,12 +140,12 @@ const OrderHistory: React.FC = () => {
                   </div>
                   <div className={styles.orderStatus}>
                     {getStatusBadge(order.status)}
-                    {getPaymentStatusBadge(order.paymentStatus)}
+                    {order.paymentStatus && getPaymentStatusBadge(order.paymentStatus)}
                   </div>
                 </div>
 
                 <div className={styles.orderItems}>
-                  {order.items.slice(0, 2).map((item, index) => (
+                  {(order.orderItems || order.items || []).slice(0, 2).map((item, index) => (
                     <div key={index} className={styles.orderItem}>
                       <div className={styles.itemInfo}>
                         <h4>{item.productName}</h4>
@@ -155,9 +157,9 @@ const OrderHistory: React.FC = () => {
                       </div>
                     </div>
                   ))}
-                  {order.items.length > 2 && (
+                  {(order.orderItems || order.items || []).length > 2 && (
                     <div className={styles.moreItems}>
-                      +{order.items.length - 2} sản phẩm khác
+                      +{(order.orderItems || order.items || []).length - 2} sản phẩm khác
                     </div>
                   )}
                 </div>
@@ -173,7 +175,7 @@ const OrderHistory: React.FC = () => {
                   </div>
                   <div className={`${styles.summaryRow} ${styles.total}`}>
                     <span>Tổng cộng:</span>
-                    <span>{order.total.toLocaleString('vi-VN')}₫</span>
+                    <span>{(order.totalAmount || order.total || 0).toLocaleString('vi-VN')}₫</span>
                   </div>
                 </div>
 
@@ -194,7 +196,7 @@ const OrderHistory: React.FC = () => {
                   )}
                   {order.status === 'delivered' && (
                     <button 
-                      onClick={() => navigate(`/products/${order.items[0]?.productId}/review`)}
+                      onClick={() => navigate(`/products/${(order.orderItems || order.items || [])[0]?.productId}/review`)}
                       className={styles.reviewButton}
                     >
                       Đánh giá
@@ -267,7 +269,7 @@ const OrderHistory: React.FC = () => {
                 </div>
                 <div className={styles.detailRow}>
                   <span>Thanh toán:</span>
-                  <span>{getPaymentStatusBadge(selectedOrder.paymentStatus)}</span>
+                  <span>{selectedOrder.paymentStatus && getPaymentStatusBadge(selectedOrder.paymentStatus)}</span>
                 </div>
                 <div className={styles.detailRow}>
                   <span>Phương thức thanh toán:</span>
@@ -297,7 +299,7 @@ const OrderHistory: React.FC = () => {
               <div className={styles.detailSection}>
                 <h3>Sản phẩm đã đặt</h3>
                 <div className={styles.itemsList}>
-                  {selectedOrder.items.map((item, index) => (
+                  {(selectedOrder.orderItems || selectedOrder.items || []).map((item, index) => (
                     <div key={index} className={styles.detailItem}>
                       <div className={styles.itemInfo}>
                         <h4>{item.productName}</h4>
@@ -325,27 +327,27 @@ const OrderHistory: React.FC = () => {
                 <div className={styles.paymentSummary}>
                   <div className={styles.summaryRow}>
                     <span>Tạm tính:</span>
-                    <span>{selectedOrder.subtotal.toLocaleString('vi-VN')}₫</span>
+                    <span>{(selectedOrder.subtotal || 0).toLocaleString('vi-VN')}₫</span>
                   </div>
                   <div className={styles.summaryRow}>
                     <span>Phí vận chuyển:</span>
-                    <span>{selectedOrder.shippingFee.toLocaleString('vi-VN')}₫</span>
+                    <span>{(selectedOrder.shippingFee || 0).toLocaleString('vi-VN')}₫</span>
                   </div>
-                  {selectedOrder.discount > 0 && (
+                  {(selectedOrder.discount || 0) > 0 && (
                     <div className={styles.summaryRow}>
                       <span>Giảm giá:</span>
-                      <span>-{selectedOrder.discount.toLocaleString('vi-VN')}₫</span>
+                      <span>-{(selectedOrder.discount || 0).toLocaleString('vi-VN')}₫</span>
                     </div>
                   )}
-                  {selectedOrder.tax > 0 && (
+                  {(selectedOrder.tax || 0) > 0 && (
                     <div className={styles.summaryRow}>
                       <span>Thuế:</span>
-                      <span>{selectedOrder.tax.toLocaleString('vi-VN')}₫</span>
+                      <span>{(selectedOrder.tax || 0).toLocaleString('vi-VN')}₫</span>
                     </div>
                   )}
                   <div className={`${styles.summaryRow} ${styles.total}`}>
                     <span>Tổng cộng:</span>
-                    <span>{selectedOrder.total.toLocaleString('vi-VN')}₫</span>
+                    <span>{(selectedOrder.total || selectedOrder.totalAmount || 0).toLocaleString('vi-VN')}₫</span>
                   </div>
                 </div>
               </div>

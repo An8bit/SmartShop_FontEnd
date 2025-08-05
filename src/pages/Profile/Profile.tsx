@@ -8,7 +8,7 @@ import { UserInfo } from '../../interfaces/User';
 
 
 const ProfilePage = () => {
-  const [userInfo, setUserInfo] = useState<any | null>(null);
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState<any | null>(null);
@@ -20,20 +20,40 @@ const ProfilePage = () => {
     loadUserInfo();
   }, []);
 
-  const loadUserInfo = () => {
+  const loadUserInfo = async () => {
     try {
-      const user = AuthService.getUser();
-      if (!user) {
+      // Ưu tiên gọi API trước
+      try {
+        const userData = await UserService.getProfile();
+        console.log('Profile loaded from API:', userData);
+        
+        if (userData) {
+          setUserInfo(userData);
+          // Cập nhật localStorage với dữ liệu mới
+          AuthService.saveUser(userData);
+         
+          return; // Thành công thì return luôn
+        }
+      } catch (apiError) {
+        console.error('API Error:', apiError);
+        showToast('Không thể kết nối server, sử dụng dữ liệu offline', 'warning');
+      }
+
+      // Fallback: sử dụng localStorage nếu API thất bại
+      const localUser = AuthService.getUser();
+      console.log('Fallback to localStorage:', localUser);
+      
+      if (localUser) {
+        setUserInfo(localUser);
+      } else {
         showToast('Vui lòng đăng nhập để xem profile', 'warning');
         navigate('/login');
-        return;
       }
-      
-      setUserInfo(user);
       
     } catch (error) {
       console.error('Error loading user info:', error);
       showToast('Có lỗi khi tải thông tin người dùng', 'error');
+      navigate('/login');
     } finally {
       setLoading(false);
     }
@@ -75,6 +95,32 @@ const ProfilePage = () => {
     navigate('/');
   };
 
+  const testUserData = () => {
+    const userData = AuthService.getUser();
+    console.log('Current user data:', userData);
+    
+    if (!userData) {
+      // Tạo user data mẫu để test
+      const sampleUser = {
+        userId: 9,
+        fullName: "Huynh Lam",
+        email: "21dh110017@st.huflit.edu.vn",
+        phone: "0359930843",
+        membershipTier: "STD",
+        totalSpending: 4350000,
+        role: "Customer",
+        createdAt: "2025-07-23T03:06:03.258523",
+        updatedAt: null
+      };
+      
+      AuthService.saveUser(sampleUser);
+      setUserInfo(sampleUser);
+      showToast('Đã tạo user data mẫu', 'success');
+    } else {
+      showToast(`User data: ${userData ? 'Có' : 'Không có'}`, 'success');
+    }
+  };
+
   
   if (loading) {
     return (
@@ -113,36 +159,51 @@ const ProfilePage = () => {
               <span>{userInfo?.userId || 'N/A'}</span>
             </div>
 
-            {/* <div className={styles.field}>
+            <div className={styles.field}>
               <label>Email:</label>
-              {isEditing ? (
-                <input
-                  type="email"
-                  name="email"
-                  value={editForm.email}
-                  onChange={handleInputChange}
-                  className={styles.input}
-                />
-              ) : (
-                <span>{userInfo.email}</span>
-              )}
+              <span>{userInfo?.email || 'N/A'}</span>
             </div>
 
             <div className={styles.field}>
               <label>Họ và tên:</label>
-              {isEditing ? (
-                <input
-                  type="text"
-                  name="fullName"
-                  value={editForm.fullName}
-                  onChange={handleInputChange}
-                  placeholder="Nhập họ và tên"
-                  className={styles.input}
-                />
-              ) : (
-                <span>{userInfo.fullName || 'Chưa cập nhật'}</span>
-              )}
-            </div> */}
+              <span>{userInfo?.fullName || 'Chưa cập nhật'}</span>
+            </div>
+
+            <div className={styles.field}>
+              <label>Số điện thoại:</label>
+              <span>{userInfo?.phone || 'Chưa cập nhật'}</span>
+            </div>
+
+            <div className={styles.field}>
+              <label>Hạng thành viên:</label>
+              <span>
+                {userInfo?.membershipTier === 'VIP' ? '👑 VIP' : 
+                 userInfo?.membershipTier === 'STD' ? '👤 Tiêu chuẩn' : 
+                 userInfo?.membershipTier || 'Chưa xác định'}
+              </span>
+            </div>
+
+            <div className={styles.field}>
+              <label>Tổng chi tiêu:</label>
+              <span className={styles.spending}>
+                {(userInfo?.totalSpending || 0).toLocaleString('vi-VN')}₫
+              </span>
+            </div>
+
+            <div className={styles.field}>
+              <label>Vai trò:</label>
+              <span>{userInfo?.role || 'N/A'}</span>
+            </div>
+
+            <div className={styles.field}>
+              <label>Ngày tham gia:</label>
+              <span>
+                {userInfo?.createdAt 
+                  ? new Date(userInfo.createdAt).toLocaleDateString('vi-VN')
+                  : 'N/A'
+                }
+              </span>
+            </div>
           </div>
 
           <div className={styles.actions}>
@@ -156,13 +217,25 @@ const ProfilePage = () => {
                 </button>
               </>
             ) : (
-              <button onClick={handleEdit} className={styles.editButton}>
-                Chỉnh sửa
-              </button>
+              <>
+                <button onClick={handleEdit} className={styles.editButton}>
+                  Chỉnh sửa
+                </button>
+                <button 
+                  onClick={() => navigate('/profile/orders')} 
+                  className={styles.ordersButton}
+                >
+                  📦 Xem đơn hàng
+                </button>
+              </>
             )}
             
             <button onClick={handleLogout} className={styles.logoutButton}>
               Đăng xuất
+            </button>
+            
+            <button onClick={testUserData} className={styles.editButton}>
+              Test User Data
             </button>
           </div>
         </div>

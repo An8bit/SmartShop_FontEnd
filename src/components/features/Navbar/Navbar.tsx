@@ -4,9 +4,9 @@ import styles from "./Navbar.module.css";
 
 const menuItems = [
   { name: "Tất cả sản phẩm", path: "/products/all" },
-  { name: "Nam", path: "/products/1" },
-  { name: "Nữ", path: "/products/2" },
-  { name: "Trẻ em", path: "/products/3" },
+  { name: "Nam", path: "/products/26" },
+  { name: "Nữ", path: "/products/25" },
+  { name: "Trẻ em", path: "/products/12" },
   { name: "Sale", path: "/products/discounted" },
 ];
 

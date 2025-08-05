@@ -206,63 +206,45 @@ class PaymentService {
   }
 
   /**
-   * Tạo đơn hàng mới
+   * Tạo đơn hàng mới - chỉ truyền request theo format API
    */
-  static async createOrder(orderData: CreateOrderDto): Promise<Order> {
+  static async createOrder(orderData: {
+    shippingAddressId: number;
+    paymentMethod: string;
+    cartItemIds: number[];
+    orderNotes?: string;
+  }): Promise<Order> {
     try {
       console.log('Creating order with data:', orderData);
       
-      const response = await ApiService.post<Order>('orders', orderData);
+      // Request format theo API yêu cầu
+      const requestPayload = {
+        shippingAddressId: orderData.shippingAddressId,
+        paymentMethod: orderData.paymentMethod,
+        cartItemIds: orderData.cartItemIds,
+        orderNotes: orderData.orderNotes || ""
+      };
+      
+      const response = await ApiService.post<Order>('Order/OrderProduces', requestPayload);
       console.log('Order created successfully:', response);
       
       return response;
     } catch (error) {
       console.error('Error creating order:', error);
-      
-      // Fallback response cho testing
-      const mockOrder: Order = {
-        orderId: Date.now(),
-        orderNumber: 'ORDER-' + Date.now(),
-        userId: 1,
-        status: 'pending',
-        paymentMethod: orderData.paymentMethod,
-        paymentStatus: 'pending',
-        shippingAddress: {
-          id: orderData.shippingAddressId,
-          receiverName: 'Test User',
-          receiverPhone: '0123456789',
-          addressLine1: 'Test Address',
-          city: 'Test City',
-          state: 'Test State',
-          postalCode: '12345',
-          country: 'Vietnam',
-          isDefault: true
-        },
-        items: [],
-        subtotal: 0,
-        shippingFee: 30000,
-        discount: 0,
-        tax: 0,
-        total: 30000,
-        notes: orderData.orderNotes,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      };
-      
-      console.log('Using fallback order:', mockOrder);
-      return mockOrder;
+      throw error;
     }
   }
 
   /**
-   * Lấy thông tin đơn hàng
+   * Lấy danh sách đơn hàng của user
    */
-  static async getOrder(orderId: number): Promise<Order> {
+  static async getOrder(): Promise<Order[]> {
     try {
-      const response = await ApiService.get<{ order: Order }>(`orders/${orderId}`);
-      return response.order;
+      const response = await ApiService.get<Order[]>(`order`);  
+      console.log('Fetched orders:', response);  
+      return response;
     } catch (error) {
-      console.error('Error fetching order:', error);
+      console.error('Error fetching orders:', error);
       throw error;
     }
   }

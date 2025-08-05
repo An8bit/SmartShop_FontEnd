@@ -42,10 +42,11 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ cartItems = [] }) => {
       
       // Ưu tiên lấy từ location state, fallback về cartService
       let items = location.state?.cartItems || cartItems;
-      
+      console.log('Initial cart items from props/location:', items);
       if (!items || items.length === 0) {
         // Nếu không có items từ props/location, load từ service
         const cart = await cartService.getCart();
+        console.log('Loaded cart from service:', cart);
         items = cart.items || [];
       }
 
@@ -134,9 +135,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ cartItems = [] }) => {
       // Tạo summary mặc định nếu API lỗi
       if (checkoutItems && checkoutItems.length > 0) {
         const subtotal = checkoutItems.reduce((sum: number, item: any) => {
-          // Ưu tiên discountedPrice cho sản phẩm flashsale
-          const itemPrice = item.product?.discountedPrice || item.price || 0;
-          return sum + itemPrice * item.quantity;
+          return sum + (item.totalPrice || item.unitPrice * item.quantity || 0);
         }, 0);
         setOrderSummary({
           items: checkoutItems.map((item: any) => ({
@@ -165,15 +164,17 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ cartItems = [] }) => {
     
     const items = checkoutItems.map((item: any) => ({
       productId: item.productId,
-      productName: item.product?.name || `Product ${item.productId}`,
+      productName: item.productName || `Product ${item.productId}`,
       quantity: item.quantity,
-      price: item.product?.discountedPrice || item.price || 0,
-      variantId: item.variant?.variantId,
-      variantName: item.variant ? `${item.variant.color} - ${item.variant.size}` : undefined,
-      imageUrl: item.product?.images?.[0]
+      price: item.unitPrice || 0,
+      variantId: item.productVariantId,
+      variantName: item.variantInfo || undefined,
+      imageUrl: item.productImage
     }));
     
-    const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const subtotal = checkoutItems.reduce((sum: number, item: any) => {
+      return sum + (item.totalPrice || 0);
+    }, 0);
     const shippingFee = orderSummary?.shippingFee || 30000;
     const discount = 0;
     const tax = 0;
@@ -215,7 +216,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ cartItems = [] }) => {
     // Nếu địa chỉ chưa có ID (địa chỉ mới), tạo ID tạm thời
     if (!selectedAddress.id) {
       console.log('Address missing ID, creating temporary ID');
-      selectedAddress.id = Date.now(); // Tạo ID tạm thời
+      selectedAddress.id = 20; // Tạo ID tạm thời
     }
     
     if (!selectedPaymentMethod) {
@@ -473,39 +474,15 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ cartItems = [] }) => {
               {checkoutItems.map((item: any, index: number) => (
                 <div key={index} className={styles.orderItem}>
                   <div className={styles.itemInfo}>
-                    <h5>{item.product?.name || `Product ${item.productId}`}</h5>
+                    <h5>{item.product?.name || `Tên: ${item.productName}`}</h5>
                     {item.variant && <p>{item.variant.color} - {item.variant.size}</p>}
                     <p>Số lượng: {item.quantity}</p>
                   </div>
                   <div className={styles.itemPrice}>
-                    {(() => {
-                      const itemPrice = item.product?.discountedPrice || item.price || 0;
-                      const totalItemPrice = itemPrice * item.quantity;
-                      const hasDiscount = item.product?.discountedPrice && 
-                                         item.product?.price && 
-                                         item.product.discountedPrice < item.product.price;
-                      
-                      return (
-                        <div>
-                          <div style={{ color: hasDiscount ? '#ff4081' : '#333', fontWeight: 'bold' }}>
-                            {totalItemPrice.toLocaleString('vi-VN')}₫
-                            {hasDiscount && <span style={{ 
-                              backgroundColor: '#ff4081', 
-                              color: 'white', 
-                              fontSize: '0.7em', 
-                              padding: '2px 4px', 
-                              borderRadius: '3px', 
-                              marginLeft: '8px' 
-                            }}>FLASHSALE</span>}
-                          </div>
-                          {hasDiscount && (
-                            <div style={{ color: '#999', fontSize: '0.9em', textDecoration: 'line-through' }}>
-                              {((item.product?.price || 0) * item.quantity).toLocaleString('vi-VN')}₫
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })()}
+                    {item.totalPrice ? 
+                      item.totalPrice.toLocaleString('vi-VN') + '₫' :
+                      (item.unitPrice * item.quantity).toLocaleString('vi-VN') + '₫'
+                    }
                   </div>
                 </div>
               ))}
@@ -540,8 +517,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ cartItems = [] }) => {
 
       {checkoutItems && checkoutItems.length > 0 && (() => {
         const subtotal = checkoutItems.reduce((sum: number, item: any) => {
-          const itemPrice = item.product?.discountedPrice || item.price || 0;
-          return sum + itemPrice * item.quantity;
+          return sum + (item.totalPrice || 0);
         }, 0);
         const shippingFee = orderSummary?.shippingFee || 30000;
         const total = subtotal + shippingFee;
