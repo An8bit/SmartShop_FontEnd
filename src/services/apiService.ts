@@ -1,5 +1,5 @@
 class ApiService {
-  static API_BASE_URL = "http://localhost:5000/api";
+  static API_BASE_URL = "http://localhost:5132/api";
 
   static async get<T>(endpoint: string): Promise<T> {
     const res = await fetch(`${ApiService.API_BASE_URL}/${endpoint}`, {

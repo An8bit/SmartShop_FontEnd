@@ -94,7 +94,7 @@ export const removeFromUserCart = async (cartItemId: number): Promise<UserCart> 
   console.log('Removing from user cart:', cartItemId);
   
   try {
-    const response = await ApiService.delete<UserCart>(`ShoppingCart/${cartItemId}`);
+    const response = await ApiService.delete<UserCart>(`ShoppingCart`);
     console.log('Remove from user cart response:', response);
     
     window.dispatchEvent(new CustomEvent('cartChanged'));
